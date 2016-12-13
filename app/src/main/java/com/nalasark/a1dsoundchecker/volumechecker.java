@@ -42,7 +42,7 @@ public class volumechecker extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://10.13.38.141:33");
+            mSocket = IO.socket("http://10.13.36.34:33");
         } catch (URISyntaxException e) {
             System.out.println("socket connection error");
         }
@@ -134,37 +134,24 @@ public class volumechecker extends AppCompatActivity {
 
         @Override
         public void call(final Object... args) {
-            System.out.println("DATA RECEIVED1");
+            System.out.println("DATA RECEIVED");
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-/*                    JSONObject data = (JSONObject) args[0];
-                    double amplitude1 = 0.0;
-                    double average1 = 0.0;
-                    double amplitude2 = 0.0;
-                    double average2 = 0.0;
+                    JSONObject data = (JSONObject) args[0];
+                    int name = 0;
+                    double curamp = 0.0;
+                    double aveamp = 0.0;
                     try {
-                        amplitude1 = Double.parseDouble(data.getString("amplitude1"));
-                        average1 = Double.parseDouble(data.getString("average1"));
-                        amplitude2 = Double.parseDouble(data.getString("amplitude2"));
-                        average2 = Double.parseDouble(data.getString("average2"));
+                        name = Integer.parseInt(data.getString("name"));
+                        curamp = Double.parseDouble(data.getString("curamp"));
+                        aveamp = Double.parseDouble(data.getString("aveamp"));
                     } catch (JSONException e) {
                         return;
-                    }*/
-                    System.out.println("DATA RECEIVED2");
-                    String data = args[0].toString();
-                    String[] parts = data.split(",");
-                    String data1 = parts[0];
-                    String data2 = parts[1];
+                    }
 
-                    double amplitude1 = 0.0;
-                    double amplitude2 = 0.0;
-
-                    amplitude1 = Double.parseDouble(data1);
-                    amplitude2 = Double.parseDouble(data2);
-
-                    update(amplitude1,amplitude2);
+                    update(curamp, aveamp);
                 }
             });
         }
