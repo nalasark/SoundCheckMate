@@ -36,6 +36,8 @@ public class Start extends AppCompatActivity {
         final CheckBox guitar = (CheckBox)findViewById(R.id.checkBoxGuitar);
         final CheckBox drums = (CheckBox)findViewById(R.id.checkBoxDrums);
         final CheckBox keyboard = (CheckBox)findViewById(R.id.checkBoxKeyBoard);
+        final CheckBox bass = (CheckBox)findViewById(R.id.checkBoxBass);
+        final CheckBox gsolo = (CheckBox)findViewById(R.id.checkBoxGsolo);
 
         vocals.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -77,6 +79,28 @@ public class Start extends AppCompatActivity {
                     instruments.add("keyboard");
                 } else {
                     instruments.remove("keyboard");
+                }
+            }
+        });
+
+        bass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    instruments.add("bass");
+                } else {
+                    instruments.remove("bass");
+                }
+            }
+        });
+
+        gsolo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    instruments.add("guitar solo");
+                } else {
+                    instruments.remove("guitar solo");
                 }
             }
         });
