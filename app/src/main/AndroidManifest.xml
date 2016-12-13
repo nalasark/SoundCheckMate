@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".Start" android:screenOrientation="landscape"/>
         <activity android:name=".volumechecker" android:screenOrientation="landscape"/>
+        <activity android:name=".Preset" android:screenOrientation="landscape"/>
+        <activity android:name=".Create_preset" android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

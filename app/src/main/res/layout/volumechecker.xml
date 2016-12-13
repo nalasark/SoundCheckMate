@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.nalasark.a1dsoundchecker.volumechecker"
-    android:padding="0dp">
+    android:padding="0dp"
+    android:background="@android:color/white">
 
     <ImageView
         android:layout_width="30dp"
@@ -41,6 +42,16 @@
         android:layout_alignStart="@+id/start1"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp" />
+
+    <ImageView
+        app:srcCompat="@android:drawable/menuitem_background"
+        android:id="@+id/avebar1"
+        android:background="@android:color/holo_green_light"
+        android:layout_height="2dp"
+        android:layout_width="40dp"
+        android:layout_below="@+id/start1"
+        android:layout_alignLeft="@+id/upperbound1"
+        android:layout_alignStart="@+id/upperbound1" />
 
     <TextView
         android:text="100%"
@@ -102,6 +113,18 @@
         android:background="@android:color/holo_green_light"
         android:layout_height="2dp"
         android:layout_width="60dp"
+        android:layout_below="@+id/start2"
+        android:layout_alignLeft="@+id/start2"
+        android:layout_alignStart="@+id/start2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+    <ImageView
+        app:srcCompat="@android:drawable/menuitem_background"
+        android:id="@+id/avebar2"
+        android:background="@android:color/holo_green_light"
+        android:layout_height="2dp"
+        android:layout_width="40dp"
         android:layout_below="@+id/start2"
         android:layout_alignLeft="@+id/start2"
         android:layout_alignStart="@+id/start2"
@@ -177,7 +200,7 @@
         android:layout_marginStart="9dp" />
 
     <Button
-        android:text="done"
+        android:text="next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

@@ -32,7 +32,7 @@ import java.util.TimerTask;
 public class volumechecker extends AppCompatActivity {
 
     double global_min = 25;
-    double global_max = 500;
+    double global_max = 120;
     boolean mic1 = false;
     boolean mic2 = false;
     double[] mic_min = {0,0};
@@ -82,8 +82,8 @@ public class volumechecker extends AppCompatActivity {
         instrument_name.setText(instrument);
 
         /////BAR 1 MIN & MAX lines
-        mic_min[0] = 60; //!! SET VALUE FROM PRESET
-        mic_max[0] = 300; //!! SET VALUE FROM PRESET
+        mic_min[0] = 50; //!! SET VALUE FROM PRESET
+        mic_max[0] = 80; //!! SET VALUE FROM PRESET
 
         int percent1_min = (int) ((mic_min[0]-global_min)/(global_max-global_min)*100);
         int percent1_max = (int) ((mic_max[0]-global_min)/(global_max-global_min)*100);
@@ -96,8 +96,8 @@ public class volumechecker extends AppCompatActivity {
         translatemax1.start();
 
         /////BAR 2 MIN & MAX lines
-        mic_min[1] = 100; //!! SET VALUE FROM PRESET
-        mic_max[1] = 200; //!! SET VALUE FROM PRESET
+        mic_min[1] = 70; //!! SET VALUE FROM PRESET
+        mic_max[1] = 100; //!! SET VALUE FROM PRESET
 
         int percent2_min = (int) ((mic_min[1]-global_min)/(global_max-global_min)*100);
         int percent2_max = (int) ((mic_max[1]-global_min)/(global_max-global_min)*100);
@@ -117,11 +117,21 @@ public class volumechecker extends AppCompatActivity {
 
         //button: done
         Button done = (Button) findViewById(R.id.done);
+
+        if (isListEmpty){
+            done.setText("done");
+        }
+
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isListEmpty){
-                    Toast.makeText(getBaseContext(),"No more instruments",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),"Soundcheck completed!",Toast.LENGTH_SHORT).show();
+                    Intent Start = new Intent(volumechecker.this, MainActivity.class);
+                    Start.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(Start);
+                    finish();
+
                 } else {
                     Intent Start = new Intent(volumechecker.this, volumechecker.class);
                     startActivity(Start);
@@ -151,45 +161,44 @@ public class volumechecker extends AppCompatActivity {
                         return;
                     }
 
-                    update(curamp, aveamp);
+                    update(name, curamp, aveamp);
                 }
             });
         }
     };
 
-    public void update(double amp1, double amp2) {
+    public void update(int name, double cur, double ave) {
 
-        ///// --- MIC 1
-        int percent1 = (int) ((amp1-global_min)/(global_max-global_min)*100);
-        int percent1_min = (int) ((mic_min[0]-global_min)/(global_max-global_min)*100);
-        int percent1_max = (int) ((mic_max[0]-global_min)/(global_max-global_min)*100);
+        TextView value;
+        View curbar;
+        View avebar;
+
+        if (name == 1) {
+            value = (TextView) findViewById(R.id.value1);
+            curbar = findViewById(R.id.bar1);
+            avebar = findViewById(R.id.avebar1);
+        } else { // name == "2"
+            value = (TextView) findViewById(R.id.value2);
+            curbar = findViewById(R.id.bar2);
+            avebar = findViewById(R.id.avebar2);
+        }
+
+        int cur_percent = (int) ((cur-global_min)/(global_max-global_min)*100);
+        int ave_percent = (int) ((ave-global_min)/(global_max-global_min)*100);
+        int percent_min = (int) ((mic_min[name-1]-global_min)/(global_max-global_min)*100);
+        int percent_max = (int) ((mic_max[name-1]-global_min)/(global_max-global_min)*100);
 
         // update textview
-        final TextView value1 = (TextView) findViewById(R.id.value1);
-        value1.setText(Integer.toString((int) amp1)); //update displayed amp value
+        value.setText(Integer.toString((int) cur)); //update displayed amp value
 
         // translate bargraph
-        final View bar1 = findViewById(R.id.bar1);
-        ObjectAnimator translatebar1 = ObjectAnimator.ofFloat(bar1, "TranslationY", dpToPx(-1 * percent1)).setDuration(200); //animate height
+        ObjectAnimator translatebar1 = ObjectAnimator.ofFloat(curbar, "TranslationY", dpToPx(-1 * cur_percent)).setDuration(200); //animate height
         translatebar1.start();
-        // set color
-        bar1.setBackgroundColor(Color.parseColor(generateColor(percent1_min, percent1_max, percent1))); //set color
-
-        ///// --- MIC 2
-        int percent2 = (int) ((amp2-global_min)/(global_max-global_min)*100);
-        int percent2_min = (int) ((mic_min[1]-global_min)/(global_max-global_min)*100);
-        int percent2_max = (int) ((mic_max[1]-global_min)/(global_max-global_min)*100);
-
-        // update textview
-        final TextView value2 = (TextView) findViewById(R.id.value2);
-        value2.setText(Integer.toString((int) amp2)); //update displayed amp value
-
-        // translate bargraph
-        final View bar2 = findViewById(R.id.bar2);
-        ObjectAnimator translatebar2 = ObjectAnimator.ofFloat(bar2, "TranslationY", dpToPx(-1 * percent2)).setDuration(200); //animate height
+        ObjectAnimator translatebar2 = ObjectAnimator.ofFloat(avebar, "TranslationY", dpToPx(-1 * ave_percent)).setDuration(200); //animate height
         translatebar2.start();
         // set color
-        bar2.setBackgroundColor(Color.parseColor(generateColor(percent2_min, percent2_max, percent2))); //set color
+        curbar.setBackgroundColor(Color.parseColor(generateColor(percent_min, percent_max, cur_percent))); //set color
+        avebar.setBackgroundColor(Color.parseColor(generateColor(percent_min, percent_max, ave_percent))); //set color
     }
 
     public int dpToPx(int dp) {

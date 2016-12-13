@@ -21,6 +21,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Start);
             }
         });
+
+        Button preset = (Button) findViewById(R.id.preset);
+        preset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent Preset = new Intent(MainActivity.this, Preset.class);
+                startActivity(Preset);
+            }
+        });
         
     }
 
