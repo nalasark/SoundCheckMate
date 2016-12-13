@@ -1,7 +1,9 @@
 package com.nalasark.a1dsoundchecker;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -19,7 +22,9 @@ import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,6 +37,7 @@ public class volumechecker extends AppCompatActivity {
     boolean mic2 = false;
     double[] mic_min = {0,0};
     double[] mic_max = {0,0};
+    boolean isListEmpty = false;
 
     private Socket mSocket;
     {
@@ -47,7 +53,33 @@ public class volumechecker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.volumechecker);
 
+        SharedPreferences sharedPref = getSharedPreferences("Data", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        final HashSet<String> empty = new HashSet<String>();
+        final Set<String> instrumentData = sharedPref.getStringSet("Instruments",empty);
+        Set<String> editedData = new HashSet<String>();
+
         //!! SET INSTRUMENT NAME FROM SELECTED LIST
+        Object[] array = instrumentData.toArray();
+        String instrument = array[0].toString();
+        array[0] = null;
+
+        if (array.length==1){
+            isListEmpty = true;
+        } else {
+            for(Object item:array){
+                if(item != null){
+                    editedData.add(item.toString());
+                }
+            }
+        }
+
+
+        editor.putStringSet("Instruments",editedData);
+        editor.commit();
+
+        TextView instrument_name = (TextView)findViewById(R.id.instrument);
+        instrument_name.setText(instrument);
 
         /////BAR 1 MIN & MAX lines
         mic_min[0] = 60; //!! SET VALUE FROM PRESET
@@ -88,8 +120,12 @@ public class volumechecker extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Start = new Intent(volumechecker.this, volumechecker.class);
-                startActivity(Start);
+                if (isListEmpty){
+                    Toast.makeText(getBaseContext(),"No more instruments",Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent Start = new Intent(volumechecker.this, volumechecker.class);
+                    startActivity(Start);
+                }
             }
         });
     }

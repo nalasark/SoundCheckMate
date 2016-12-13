@@ -16,28 +16,28 @@
             android:text="vocals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox4"
+            android:id="@+id/checkBoxVocals"
             android:layout_weight="1" />
 
         <CheckBox
             android:text="guitar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBoxGuitar"
             android:layout_weight="1" />
 
         <CheckBox
             android:text="drums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox5"
+            android:id="@+id/checkBoxDrums"
             android:layout_weight="1" />
 
         <CheckBox
             android:text="keyboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox3"
+            android:id="@+id/checkBoxKeyBoard"
             android:layout_weight="1" />
 
     </LinearLayout>
