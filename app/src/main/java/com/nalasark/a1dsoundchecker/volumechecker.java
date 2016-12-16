@@ -125,6 +125,7 @@ public class volumechecker extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mSocket.disconnect();
                 if (isListEmpty){
                     Toast.makeText(getBaseContext(),"Soundcheck completed!",Toast.LENGTH_SHORT).show();
                     Intent Start = new Intent(volumechecker.this, MainActivity.class);
