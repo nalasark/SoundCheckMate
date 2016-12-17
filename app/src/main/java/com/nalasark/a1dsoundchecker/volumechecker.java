@@ -40,18 +40,30 @@ public class volumechecker extends AppCompatActivity {
     boolean isListEmpty = false;
 
     private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://10.13.36.34:33");
-        } catch (URISyntaxException e) {
-            System.out.println("socket connection error");
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.volumechecker);
+
+        String ipAddress;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                ipAddress= "http://10.21.115.157:33";
+            } else {
+                ipAddress= extras.getString("IPADDRESS");
+            }
+        } else {
+            ipAddress= (String) savedInstanceState.getSerializable("IPADDRESS");
+        }
+
+        try {
+            mSocket = IO.socket(ipAddress);
+        } catch (URISyntaxException e) {
+            System.out.println("socket connection error");
+        }
+
 
         SharedPreferences sharedPref = getSharedPreferences("Data", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();

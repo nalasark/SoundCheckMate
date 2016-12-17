@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -140,6 +141,8 @@ public class Start extends AppCompatActivity {
         spinner2ArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Genres.setAdapter(spinner2ArrayAdapter);
 
+        final EditText ipAddress = (EditText) findViewById(R.id.ipadd);
+
         Button start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +180,7 @@ public class Start extends AppCompatActivity {
                     editor.commit();
 
                     Intent Start = new Intent(Start.this, volumechecker.class);
+                    Start.putExtra("IPADDRESS", ipAddress.getText().toString());
                     startActivity(Start);
                 }
 

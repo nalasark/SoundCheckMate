@@ -8,6 +8,12 @@
     android:gravity="center"
     android:background="@android:color/white">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="http://10.21.115.157:33"
+        android:id="@+id/ipadd"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
